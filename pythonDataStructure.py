@@ -1,4 +1,6 @@
-# 리스트
+# DataStructure : 변수, 리스트, 튜플, 딕셔너리, 집합(set)
+# (1) 리스트
+#리스트나 튜플은 거의 유사하지만 리스트는 값과 크기 변동이 가능하다.
 a = [0,1,"hi", 3, ["안녕",4]]
 print(a)
 print(a[4])
@@ -88,3 +90,50 @@ a = "abc def ggg"
 print( a.split() ) 
 a = "a:b:c:d"
 print( a.split(':') )
+
+# DataStructure : 변수, 리스트, 튜플, 딕셔너리, 집합(set)
+# (2) 튜플 
+# 리스트와 달리 처음 설정한 길이와 값의 수정이 불가능하다
+# 삭제 / 삽입 / 추가 (값변동) 불가능
+t1 = (1,2,'a','b')
+
+# del t1[0] 불가능
+# t1[0] = 0 불가능
+
+# 인덱싱, 슬라이싱 가능 --> 해당 튜플의 값 자체는 변동이 없음
+print( t1[0:2] )
+print(t1)
+t2 = (1,2,3,'t','t')
+print(t1+t2) #t1 t2 자체가 바뀌지는 않음
+print(t1*3)
+
+t3 = (1,2)
+t3 = t3*3 #값을 변화시킨 것이 아니라 새로 정의함!!!!
+print(t3)
+
+# DataStructure : 변수, 리스트, 튜플, 딕셔너리, 집합(set)
+# (3) 딕셔너리 
+# == hash, map , object, JSON(API에 자주 활용됨)
+#key를 통해 value를 얻는다(키로 값을 찾을 수 있음) ***key는 유일무이
+dic = {1:'a', 1:'b'}
+print(dic)
+ 
+dic = {'name': 'Eric', 'age':15, 'list':[1,2,3,4,5]}
+print( dic["list"])
+
+# 새로운 키 및 값 추가
+dic['name'] = 'dodo' #덮어쓰기 가능
+print(dic['name'])
+print(dic)
+dic[1] = "안녕"
+print(dic)
+
+#del 삭제
+del dic['name']
+print(dic) 
+
+# keys key들만 따로 뽑기
+print(dic.keys())
+a = dic.keys()
+print(a)
+print(type(a))
