@@ -121,7 +121,7 @@ print(dic)
 dic = {'name': 'Eric', 'age':15, 'list':[1,2,3,4,5]}
 print( dic["list"])
 
-# 새로운 키 및 값 추가
+# 새로운 키 및 값 추가 
 dic['name'] = 'dodo' #덮어쓰기 가능
 print(dic['name'])
 print(dic)
