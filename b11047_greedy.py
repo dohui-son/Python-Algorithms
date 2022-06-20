@@ -1,5 +1,11 @@
-p,*q=list(open(0))
-k=int(p[2:])
-c=0
-for i in map(int,q[::-1]):c+=k//i;k%=i
-print(c)
+import sys
+reader = sys.stdin.readline
+n , k = map(int, reader().split())
+ans = 0
+
+arr = list(int( reader().rstrip() ) for _ in range(n)) 
+for i in range(n):
+        ans += ( k //arr[n-i-1] )
+        k %= arr[n-i-1]
+    
+print(ans)
