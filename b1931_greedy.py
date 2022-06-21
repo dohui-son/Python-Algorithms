@@ -1,4 +1,4 @@
-import sys
+import sys #회의실 배정
 reader = sys.stdin.readline
 n = int( reader().rstrip() )
 arr = [(0,0)]*n
@@ -10,7 +10,7 @@ for i in range(n):
 arr.sort()
 e = 0
 for i in range(n):
-    if( e <= arr[i][1] ):
+    if e <= arr[i][1] :
         ans+=1
         e = arr[i][0]
 print(ans)
