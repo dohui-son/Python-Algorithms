@@ -1,7 +1,6 @@
 def solution(lottos, win_nums):
-    ans = [6,6]
+    ans = [6,6]; cnt = 0
     zero = lottos.count(0)
-    cnt = 0
     for i in lottos: 
         if i in win_nums: cnt += 1; win_nums.remove(i)
     if cnt+zero >= 2:
