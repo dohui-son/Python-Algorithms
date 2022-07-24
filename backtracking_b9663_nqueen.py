@@ -4,8 +4,7 @@ def search(col, ld, rd, n):
     size = ((1 << n) - 1)
     count = 0
 
-    if col == size:
-        return 1
+    if col == size: return 1
 
     slots = ~(col | ld | rd) & size
     while slots:
