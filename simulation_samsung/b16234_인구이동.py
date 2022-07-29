@@ -1,4 +1,4 @@
-# 통과했지만 레퍼런스보고 시간 줄이는 공부가 필요
+# 통과했지만 레퍼런스(동일 폴더에 저장해둠) 보고 연산시간 줄이는 공부가 필요
 
 import sys; from collections import defaultdict, deque #인구이동
 reader = sys.stdin. readline
