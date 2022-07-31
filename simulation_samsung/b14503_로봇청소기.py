@@ -1,4 +1,4 @@
-from collections import deque,defaultdict
+from collections import deque,defaultdict #1시간 10분
 n,m = map(int, input().split() )
 sy, sx, sd = map(int, input().split())
 if sd == 1: sd = 3
