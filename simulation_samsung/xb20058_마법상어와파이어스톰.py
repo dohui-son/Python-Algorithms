@@ -1,3 +1,4 @@
+# 더 효율적인 로직으로 풀어보기
 from collections import defaultdict,deque; import copy
 n, q = map(int, input().split())
 n2 = 2**n
