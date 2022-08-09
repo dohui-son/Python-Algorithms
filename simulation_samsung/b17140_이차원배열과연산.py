@@ -88,16 +88,4 @@ for t in range(0,101):
                 j += 1
 
         yul = newyul
-    # if t < 5:
-    #     print(hang, yul)
-    #     for i in ga: print(i)
-
 print(-1) if ans == int(1e9) else print(ans)
-
-
-
-
-
-
-
-
