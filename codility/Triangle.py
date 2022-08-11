@@ -1,3 +1,4 @@
+# O(N*log(N))
 def solution(A):
     n = len(A)
     if n<=2: return 0
