@@ -13,10 +13,13 @@ def solution(N, M):
 
     # 시간초과 일부 개선됨 -  아래코드는 일부 수정 필요 - 수정전에 submit한 후 테스트 케이스 결과 먼저 보고 참고하기
 def solution(N, M):
-    now, ans = 0, 0
+    now, ans, cnt = 0, 0, 0
+    if N/M == 0: cnt = N//M-1
+    else : cnt = N//M if N//M > 0 else 1
     for i in range(N):
-        if now+(N//M)*M == N:ans+= N//M  ;break
-        if now>0: ans+= N//M; now = (now + (N//M)*M)%N
-        else: ans +=( N//M +1); now = (now + (N//M+1)*M)%N
+        if (now + cnt*M)%N == 0: ans += cnt ;break
+        if ans > 0:ans += cnt; now = (now + cnt*M)%N
+        else: ans += cnt+1; now = (now + (cnt+1)*M)%N
+
 
     return ans
