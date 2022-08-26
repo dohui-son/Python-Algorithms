@@ -1,3 +1,4 @@
+# 1시간 22분
 from collections import defaultdict, deque
 import math
 global n,m,t,ans,g
