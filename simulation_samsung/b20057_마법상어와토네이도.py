@@ -1,3 +1,4 @@
+# 2시간 12분 디버깅 및 아이디어에 시간 많이 잡아먹음
 from collections import deque, defaultdict
 
 n = int(input().rstrip())

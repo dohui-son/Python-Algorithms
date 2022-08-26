@@ -1,4 +1,4 @@
-def solution(a, b, n):
+def solution(a, b, n): # 0 
     ans = 0
     if n<a: return ans
     bottle,ans = n,0
