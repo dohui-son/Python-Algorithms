@@ -2,8 +2,7 @@ global k,n
 l = []
 k, n = 0, 0
 def BT(cur, arr, start):
-    if cur == 6: 
-        print(arr)
+    if cur == 6: print(*arr)
     elif cur<k and start<n :
         for i in range(start, n):
             tmp = arr[cur]
@@ -24,3 +23,4 @@ while True:
     arr = [0]*6
 
     BT(0, arr, 0)
+    print()
