@@ -1,3 +1,4 @@
+# 1시간 42분
 from collections import defaultdict, deque
 from copy import deepcopy
 global ans,n,m,k,yang,tree
