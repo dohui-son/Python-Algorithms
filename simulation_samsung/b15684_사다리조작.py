@@ -1,4 +1,4 @@
-# 사다리 조작
+# 사다리 조작 1시간 14분
 from collections import defaultdict, deque
 
 INF = int(1e9)
