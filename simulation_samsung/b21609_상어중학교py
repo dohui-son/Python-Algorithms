@@ -1,0 +1,130 @@
+# 상어중학교
+from collections import  defaultdict,deque
+from copy import deepcopy
+
+# 검은색 블록은 -1, 무지개 블록은 0
+# 1. 크기가 가장 큰 블록 그룹을 찾는다. 그러한 블록 그룹이 여러 개라면 포함된 무지개 블록의 수가 가장 많은 블록 그룹, 그러한 블록도 여러개라면 기준 블록의 행이 가장 큰 것을, 그 것도 여러개이면 열이 가장 큰 것을 찾는다.
+# 2. 1에서 찾은 블록 그룹의 모든 블록을 제거한다. 블록 그룹에 포함된 블록의 수를 B라고 했을 때, B2점을 획득한다.
+# 3. 격자에 중력 작용
+# 4. 격자가 90도 반시계 회전
+# 5. 격자에 중력 작용 - 격자에 중력이 작용하면 검은색 블록을 제외한 모든 블록이 행의 번호가 큰 칸으로 이동한다. 이동은 다른 블록이나 격자의 경계를 만나기 전까지 계속 된다.
+
+
+global n,m,g,visit,ans,info,arr
+n,m = map(int, input().split())
+g = [[*map(int, input().split())] for _ in range(n)]
+for i in range(n):
+    for j in range(n):
+        if g[i][j] == 0: g[i][j] = m+1
+visit, ans, info = [],0, []
+# [블록크기, 무지개블록개수, 기준블록행,기준블록열]      #무지개 블록이 아닌 블록 중에서 행의 번호가 가장 작은 블록, 그러한 블록이 여러개면 열의 번호가 가장 작은 블록
+arr = deque()
+dir = [(0,1),(1,0),(-1,0),(0,-1)]
+
+
+#bfs(info,visit, arr, i,j)
+def bfs(sy,sx): ##[블록크기, 무지개블록개수, 기준블록행,기준블록열]
+    global n, m, g, visit, ans, info,arr
+    inf = [1,0,sy,sx]
+    ret = deque([(sy,sx)]); color = g[sy][sx]
+    v = [[False] * n for _ in range(n)]
+    q = deque(); q.append((sy,sx))
+    visit[sy][sx] = v[sy][sx] = True
+    while q:
+        y,x = q.popleft()
+        for d in dir:
+            ny,nx = y+d[0],x+d[1]
+            if ny<0 or nx<0 or ny>=n or nx>=n:continue
+            if visit[ny][nx] or v[ny][nx] or g[ny][nx] == -1 or g[ny][nx] == 0 : continue
+            if g[ny][nx] == color or g[ny][nx] == m+1:
+                q.append((ny,nx))
+                ret.append((ny, nx))
+                v[ny][nx] = True
+                inf[0] += 1
+
+                if g[ny][nx] < m+1:  # 일반블럭인 경우
+                    visit[ny][nx] = True
+                    if inf[2]>sy or (inf[2]==sy and inf[3]>sx) : inf[2] = sy; inf[3] = sx
+                elif g[ny][nx] == m+1:  inf[1] += 1        #무지개 블럭
+
+    if inf[0]>=2 :
+        #비교해서 info랑 arr갱신해주기
+        if info :
+            if inf[0]>=info[0] :
+                if inf[0] == info[0]:
+                    if inf[1]>=info[1]:
+                        if inf[1] == info[1]:
+                            if inf[2]>= info[2]:
+                                if inf[2] == info[2] and inf[3] < info[3]: return
+                            else:return
+                    else: return
+            else: return
+
+
+
+        info = inf.copy()
+        arr = deepcopy(ret)
+
+    return
+
+
+
+
+def gravity():
+    for sx in range(n):
+        q = deque()
+        x, y = sx, n-1
+        zy = -1
+        while y>=0:
+            ny = y
+            if g[ny][x] == -1 : zy = -1
+            if zy==-1 and g[ny][x] == 0: zy = ny
+
+            if g[ny][x]>0:
+                if zy > -1:
+                    g[zy][x] = g[ny][x]
+                    g[ny][x] = 0
+                    if zy-1>=0 :
+                        if g[zy-1][x] == 0: zy = zy-1
+            y = ny-1
+
+
+
+
+
+while True:
+    # 블록 그룹이 없으면 끝
+    visit = [[False]*n for _ in range(n)]
+    info = [] #[블록크기, 무지개블록개수, 기준블록행,기준블록열]      #무지개 블록이 아닌 블록 중에서 행의 번호가 가장 작은 블록, 그러한 블록이 여러개면 열의 번호가 가장 작은 블록
+    arr = deque()
+    for i in range(n):
+        for j in range(n):
+            if visit[i][j]==False and g[i][j]<m+1 and g[i][j]>0 : bfs(i,j) # bfs후에 무지개 블록 tr
+    if info:
+        for l in arr:g[l[0]][l[1]] = 0
+        ans += (info[0]**2)
+        #중력 작용
+        gravity()
+
+
+        # 반시계방향 회전
+        gg = deepcopy(g)
+        y =0
+        for i in range(n-1,-1,-1):
+            x = 0
+            for j in range(n):g[y][x] = gg[j][i]; x+=1
+            y+=1
+        # for i in g: print(i)
+
+
+
+        # # 중력 작용
+        gravity()
+
+
+
+    else: break #블록 그룹이 없어서 끝
+
+
+
+print(ans)

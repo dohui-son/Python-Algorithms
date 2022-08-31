@@ -3,7 +3,7 @@ from collections import deque
 m,n,h = map(int,input().split()) 
 graph = []
 q = deque([])
-ts,red =0,0
+ts,red,ans =0,0,0
  
 for i in range(h):
     l = []
