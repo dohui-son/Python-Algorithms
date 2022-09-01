@@ -1,4 +1,4 @@
-# 12:55
+# 12:55 - 1:26
 from collections import deque
 global k,n,m
 t = int(input().rstrip())
@@ -23,7 +23,6 @@ for tt in range(t):
     bachoo = deque([])
     for _ in range(k):
         x,y = map(int,input().split())
-        print("now",y,x)
         g[y][x] = 1
         bachoo.append((y,x))
 
