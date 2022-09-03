@@ -1,3 +1,4 @@
+# 생각보다 푸는데 오래 걸림
 import sys; reader = sys.stdin.readline
 from collections import defaultdict,deque
 from sys import setrecursionlimit
@@ -24,7 +25,7 @@ for nn in range(n):
 ans = [-1] * n
 
 pre = -1
-while all>0:
+for _ in range(all):
     # 차량 하나 나갈때마다 all 개수 하나씩 없애기
     nowbit, nowtime,cnt = 0, INF, 0 # nowtime이 바뀌어서 수정 필요
     flag = False 
@@ -48,7 +49,7 @@ while all>0:
                 elif nowtime == car[i][0][0]: 
                     nowbit |= (1<<i)
                     cnt += 1 
-
+    if cnt == 0: break
     if cnt == 4:break 
     bit = nowbit
     while bit:
@@ -57,7 +58,6 @@ while all>0:
         num = tonum[nextt]
         if nowbit & (1<<block[num]): continue
         ans[ car[num][0][1] ] = nowtime
-        all -= 1
         car[num].popleft()     
         
     pre = nowtime
