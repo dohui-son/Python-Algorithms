@@ -8,37 +8,6 @@ g = [ [*map(int,input().split())] for _ in range(n)]
 for i in range(n): tonum[ (1<<i) ] = i
 ans = float('inf')
 
-# for i in range( 0, (1<<n) ):
-#     cnt = 0
-#     for j in range(n):
-#         if i&(1<<j): cnt += 1
-#     if cnt != n//2: continue
-
-#     ateam = i
-#     bteam = ~i & ((1<<n)-1)
-    
-#     s1,s2 = 0,0
-#     while ateam:
-#         adx = ateam &-ateam
-#         bdx = bteam & -bteam
-#         ateam &= (ateam-1)
-#         bteam &= (bteam-1)
-#         anext, bnext =  ateam, bteam
-#         while anext:
-#             asmall = anext&-anext
-#             bsmall = bnext&-bnext
-            
-#             anext &= (anext-1)
-#             bnext &= (bnext-1) 
-#             s1 += g[tonum[adx]][tonum[asmall]]
-#             s1 += g[tonum[asmall]][tonum[adx]]
-#             s2 += g[tonum[bdx]][tonum[bsmall]]
-#             s2 += g[tonum[bsmall]][tonum[bdx]]
-#     ans = min( ans, abs(s1-s2) )
-# print(ans)
-
-
-
 def BT(ateam, cnt, start) : 
     global ans
     if cnt == n//2:
