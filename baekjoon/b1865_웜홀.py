@@ -1,4 +1,5 @@
 from collections import defaultdict,deque
+import sys; input = sys.stdin.readline
 
 global n,m,w,e
 INF = int(2e9)
@@ -14,7 +15,7 @@ def BF(start):
             nextt = edge[1]
             cost = edge[2]
 
-            if dis[nextt] > cost+dis[now]:
+            if  dis[nextt] > cost+dis[now]:
                 dis[nextt] = cost+dis[now]
                 if i == n-1: return True
     return False
@@ -32,8 +33,6 @@ for _ in range(t):
     for _ in range(w):
         s,ee,t = map(int, input().split())
         e.append((s,ee,-t))
-    flag = False
-    for  i in range(1,n+1):
-        if BF(i): flag = True;break
-    if flag: print("YES")
+    
+    if BF(1): print("YES")
     else: print("NO")
