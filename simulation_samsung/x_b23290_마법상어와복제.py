@@ -1,110 +1,94 @@
-from collections import defaultdict,deque
+import copy
 
+def move_fish():
+    """
+    물고기 이동
+    1. 상어가 있는 칸, 물고기 냄새 칸, 벗어나는 칸 x 
+    2. 45도 반시계 회전 후 이동. 이동 못하는 경우 그대로 
+    :return:
+    """
+    res = [[[] for _ in range(4)] for _ in range(4)]
+    for x in range(4):
+        for y in range(4):
+            while temp[x][y]:
+                d = temp[x][y].pop()
+                for i in range(d, d - 8, -1):
+                    i %= 8
+                    nx, ny = x + f_dx[i], y + f_dy[i]
+                    if (nx, ny) != shark and 0 <= nx < 4 and 0 <= ny < 4 and not smell[nx][ny]:
+                        res[nx][ny].append(i)
+                        break
+                else:
+                    res[x][y].append(d)
+    return res
 
-#(1, 1)이고, 가장 오른쪽 아랫 칸은 (4, 4)
-# 둘 이상의 물고기가 같은 칸에 있을 수도 있으며, 마법사 상어와 물고기가 같은 칸에 있을 수도 있다.
+def dfs(x, y, dep, cnt, visit):
+    """
+    상어 3칸 이동
+    1. 제외되는 물고기 수가 많고 > 이동방법 사전순(백트래킹하면 자동으로 됨) 
+    2. 이동한 곳을 저장 > 물고기 냄새가 됨  
+    """
+    global max_eat, shark, eat
+    if dep == 3:   # 3번 이동한 경우 그만 
+        if max_eat < cnt:
+            max_eat = cnt
+            shark = (x, y)
+            eat = visit[:]
+        return
+    for d in range(4):
+        nx = x + dx[d]
+        ny = y + dy[d]
+        if 0 <= nx < 4 and 0 <= ny < 4:
+            if (nx, ny) not in visit:  # 처음 방문, cnt에 죽은 물고기 수 추가  
+                visit.append((nx, ny))
+                dfs(nx, ny, dep + 1, cnt + len(temp[nx][ny]), visit)
+                visit.pop()
+            else:  # 방문한 경우
+                dfs(nx, ny, dep + 1, cnt, visit)
 
-# 상은 1, 좌는 2, 하는 3, 우는 4로 변환한다. 변환을 모두 마쳤으면,
-# 수를 이어 붙여 정수로 하나 만든다. 두 방법 A와 B가 있고,
-# 각각을 정수로 변환한 값을 a와 b라고 하자. a < b를 만족하면 A가 B보다 사전 순으로 앞선 것
+#       ←, ↖,   ↑,  ↗, →, ↘, ↓, ↙
+f_dx = [0, -1, -1, -1, 0, 1, 1, 1]
+f_dy = [-1, -1, 0, 1, 1, 1, 0, -1]
+dx = [-1, 0, 1, 0]
+dy = [0, -1, 0, 1]
 
-global shy,shx,g
-shy,shx = 0,0
-g = [[[[],0] for _ in range(4)] for _ in range(4)] # [물고기 번호 , 냄새]
-m, s = map(int , input().split())
+m, s = map(int, input().split())
+fish = [list(map(int, input().split())) for _ in range(m)]
+graph = [[[] for _ in range(4)] for _ in range(4)]
 
-sdir = [(-1,0), (0,-1), (1,0), (0,1)] #상은 1, 좌는 2, 하는 3, 우는 4로 변환
-#        0       1      2      3
-fdir = [(0,-1), (-1,-1), (-1,0), (-1,1),(0,1),(1,1),(1,0),(1,-1)]
-#          ←,      ↖,      ↑,      ↗,    →,    ↘,    ↓,     ↙
-#          0       1       2       3     4     5     6      7
+for x, y, d in fish:
+    graph[x - 1][y - 1].append(d - 1)
 
-fish = defaultdict(list)
-for i in range(m):
-    y,x,d = map(int, input().split())
-    fish[i] = [y-1, x-1, d-1]
+shark = tuple(map(lambda x: int(x) - 1, input().split()))
+smell = [[0] * 4 for _ in range(4)]
 
-shy,shx = map(int,input().split())
-shy,shx = shy-1,shx-1
-tostr = defaultdict(str); tostr[1] = '1'; tostr[2] = '2'; tostr[3] = '3'; tostr[4] = '4'
-anti = defaultdict(str)
-anti[0] = '3'; anti[3]='2'; anti[1] = '4'; anti[2] = '1'
-
-def bfs():
-    global shy, shx, g
-    q = deque([[shy,shx,1,0,'']])
-
-
-    hoobo = [] # 몇칸째 이동중인지 / 잡은 물고기 마리수 / 사전
-    while q:
-
-        y,x,cnt,fcnt,st = q.popleft()
-        for num, d in enumerate(sdir):
-            ny,nx = d[0]+y, d[1]+x
-            if ny<0 or nx<0 or ny>=4 or nx>=4 : continue
-            if anti[num] in st: continue
-            if len(st) == 1:
-                if anti[num] == st[0] : continue
-            if len(st) == 2:
-                if anti[num] == st[0] or anti[num] == st[1]: continue
-            if cnt + 1 <= 4:
-                ll = [0,0,'']
-                ll[0] = cnt + 1
-                ll[1] = fcnt + len( g[ny][nx] )
-                ll[2] = st + tostr[num + 1]
-                if ll[0] == 4 :
-                    if hoobo:
-                        if hoobo[-1][0] < ll[1] : hoobo[-1][0] = ll[1];hoobo[-1][1] = -int( ll[2] )
-                        elif hoobo[-1][0] == ll[1] and hoobo[-1][1] < -int( ll[2] ) : hoobo[-1][1] = -int( ll[2] )
-                    else: hoobo.append( [ll[1], -int(ll[2] )] )
-                else: q.append( (ny,nx,ll[0],ll[1],ll[2]) )
-    if hoobo:
-        hoobo.sort(reverse=True)
-        return -hoobo[0][1]
-    else: print("no hoobo")
-fdx = m
-sg = [[0]*4 for _ in range(4)]
 for _ in range(s):
-    # 물고기 이동 - 복제 마법이 시전됨으로 이동후 전에 있던 칸에서 자기를 없애지 않음에
-    key = list(fish.keys())
+    eat = list()
+    max_eat = -1
+    # 1. 모든 물고기 복제
+    temp = copy.deepcopy(graph)
+    # 2. 물고기 이동
+    temp = move_fish()
+    # 3. 상어이동 - 백트래킹
+    dfs(shark[0], shark[1],0, 0, list())
+    for x, y in eat:
+        if temp[x][y]:
+            temp[x][y] = []
+            smell[x][y] = 3   # 3번 돌아야 없어짐
+    # 4. 냄새 사라짐 
+    for i in range(4):
+        for j in range(4):
+            if smell[i][j]:
+                smell[i][j] -= 1
+    # 5. 복제 마법
+    for i in range(4):
+        for j in range(4):
+            graph[i][j] += temp[i][j]
 
-    ffish = defaultdict(list)
+# 물고기 수 구하기 
+answer = 0
+for i in range(4):
+    for j in range(4):
+        answer += len(graph[i][j])
 
-    g = [[deque() for _ in range(4)] for _ in range(4)]  # [물고기 번호 비트, 냄새]
-    for fnum in fish:
-        y,x,sd = fish[fnum]
-        nd,ny,nx,flag = 0,0,0,False
-        for i in range(8) :
-            nd = sd-i
-            if nd<0: nd += 8
-            ny, nx = y+fdir[nd][0],x+fdir[nd][1]
-            if ny<0 or nx<0 or ny>= 4 or nx>=4: continue
-            if ( ny==shy and nx==shx ) or sg[ny][nx]>0: continue # 냄새가 있거나 상어칸이
-            flag = True; break
-        if flag: # 이동 가능한 칸이 있음
-            ffish[fdx] = [ny,nx,nd]
-            g[ny][nx].append(fdx)
-            fdx+=1
-        else:
-            ffish[fdx] = [y,x,sd]
-            g[y][x].append(fdx)
-            fdx += 1
-
-    for y in range(4): # 물고기 냄새 없애주
-        for x in range(4):
-            if sg[y][x] : sg[y][x] -= 1
-    togo = bfs()
-    y, x = shy, shx
-    for i in range( 2, -1, -1 ): # 상어 이동 - ffish에서 죽이기(g에서도 없애) + 물고기 냄새 남기기
-        ten = 10**i
-        d = togo//ten - 1
-        togo %= ten
-        ny, nx =  y+sdir[d][0], x+sdir[d][1]
-        if g[ny][nx] :
-            sg[ny][nx] = 2
-            for fnum in g[ny][nx] : del ffish[fnum]
-        y,x = ny,nx
-    shy,shx = y,x
-    fish.update(ffish)
-
-print(len(fish))
+print(answer)
