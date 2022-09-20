@@ -1,0 +1,41 @@
+from collections import defaultdict,deque
+import sys
+input = sys.stdin.readline
+n = int(input().rstrip())
+
+parent = [i for i in range(n)]
+x , y, z = [], [], []
+for i in range(n):
+    a,b,c = map(int ,input().split())
+    x.append((a,i))
+    y.append((b,i))
+    z.append((c,i))
+x.sort()
+y.sort()
+z.sort()
+
+e = []
+for l in x,y,z:
+    print(l)
+    for i in range(0,n-1):
+        e.append( (abs(l[i][0]-l[i+1][0]), l[i][1], l[i+1][1]) )
+e.sort()
+
+def findd(x):
+    if x != parent[x]: parent[x] = findd( parent[x] )
+    return parent[x]
+
+
+def union(a,b):
+    aa = findd(a)
+    bb = findd(b)
+    if aa == bb: return False
+    if aa < bb: parent[bb] = aa
+    else: parent[aa] = bb
+    return True
+
+ans = 0
+for l in e:
+    cost, a,b = l
+    if union(a,b): ans += cost
+print(ans)
