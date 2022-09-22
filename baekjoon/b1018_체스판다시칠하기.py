@@ -17,7 +17,6 @@ def check(color,counterpart, y,x):
             else: 
                 if g[y+i][x+j] != counterpart: ret+=1
     ans = min(ans,ret)
-    
 
 for y in range(0,n-7):
     for x in range(0,m-7):
