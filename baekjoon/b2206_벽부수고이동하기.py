@@ -11,7 +11,7 @@ def bfs(sy,sx):
     q = deque([(sy,sx,0)])
     while q:
         y,x,bomb = q.popleft()
-        if y==n-1 and x == m-1: return v[y][x][bomb]+1
+        if y==n-1 and x == m-1: return v[y][x][bomb]
         for d in dir:
             ny,nx = y+d[0], x+d[1]
             if ny<0 or nx<0 or ny>=n or nx>=m: continue
