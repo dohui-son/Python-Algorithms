@@ -2,6 +2,7 @@ from collections import defaultdict, deque
 import sys; sys.setrecursionlimit(10000)
 input = sys.stdin.readline
 
+# INITIALIZE - input
 n, m, k = map(int, input().split())
 f = [*map(int,input().split())]
 g = [[] for _ in range(n+1)]
@@ -14,7 +15,6 @@ parent = [i for i in range(n+1)]
 def findd(x):
     if x != parent[x]: parent[x] = findd(parent[x])
     return parent[x]
-
 def union(a,b):
     aa = findd(a)
     bb = findd(b)
@@ -41,14 +41,8 @@ for _ in range(m):
         g[b].append(a)
         union(a,b)
     
-
-
-
 for i in range(n) : fee.append((f[i],i+1))
-fee.sort()
-
-
-
+fee.sort() # SORT FOR KRUSKAL
 
 def unionZero(a,b):
     aa = 0
@@ -57,10 +51,9 @@ def unionZero(a,b):
     else:
         tmp = child[ parent[bb] ] 
         for num in tmp : parent[num] = 0
-
     return True
 
-
+# UNION FIND in GREEDY way
 for l in fee:
     cost, idx = l
     if unionZero(0, idx) : ans += cost
