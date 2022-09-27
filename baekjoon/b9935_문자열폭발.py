@@ -13,6 +13,5 @@ for s in l:
             for _ in range(n): arr.pop()
         else: break
 
-
 if arr : print(*arr, sep="")
 else : print('FRULA')
