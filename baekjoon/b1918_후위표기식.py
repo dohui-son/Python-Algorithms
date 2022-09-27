@@ -19,8 +19,6 @@ for s in st:
         elif s == ')':
             while stk and stk[-1] != '(': ans += stk.pop()
             stk.pop()
-while stk: 
-    if stk[0] == '(' or stk[0] == ')': stk.pop(); continue
-    ans += stk.pop()
+while stk : ans += stk.pop()
 
 print(ans)  

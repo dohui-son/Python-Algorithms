@@ -91,7 +91,5 @@ def playball(kk):
 
 for kk in range(k):
     moveteams()
-    # print(kk, "ans",ans)
-    # print(team)
-    # for i in teamg: print(i)
+
     playball(kk)
