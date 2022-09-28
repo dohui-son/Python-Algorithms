@@ -1,3 +1,4 @@
+# 1시간 30분
 from collections import  defaultdict, deque
 
 global r,c,m, shark,g, ans
