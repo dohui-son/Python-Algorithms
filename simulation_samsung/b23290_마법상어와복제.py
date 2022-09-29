@@ -1,3 +1,4 @@
+# 1시간 45분
 from collections import defaultdict, deque
 global sharkdir, fishcnt
 
