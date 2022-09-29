@@ -2,7 +2,7 @@ from collections import defaultdict, deque
 import sys; sys.setrecursionlimit(7000)
 global n, ans
 
-def zipStr( num, st):
+def zip_str( num, st):
     global n, ans
     neww, pre, cnt = '', st[:num], 1
     
@@ -26,6 +26,6 @@ def solution(s):
     global n, ans
     ans, n = len(s), len(s)
     
-    for i in range(1, n-1) : zipStr( i, s )
+    for i in range(1, n-1) : zip_str( i, s )
     
     return ans

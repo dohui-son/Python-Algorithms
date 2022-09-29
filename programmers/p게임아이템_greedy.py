@@ -18,5 +18,5 @@ def solution(healths, items):
         if q :
             minus, num = hq.heappop(q)
             ans.append(num)
-    ans.sort()
-    return ans
+
+    return sorted(ans)
