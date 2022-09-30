@@ -18,10 +18,13 @@ smell = [[0]*4 for _ in range(4)]
 for _ in range(S):
   next_fish = [[[] for _ in range(4)] for _ in range(4)]
   moved_fish = [[[0]*8 for _ in range(4)] for _ in range(4)]
+
+  # 물고기 복제해두기
   for i in range(4):
     for j in range(4):
       next_fish[i][j] = fish[i][j][:]
   
+  # 물고기 이동
   for i in range(4):
     for j in range(4):
       for k in range(8):
