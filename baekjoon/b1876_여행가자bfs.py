@@ -1,25 +1,33 @@
-from collections import defaultdict, deque
-n = int(input().rstrip())
-m = int(input().rstrip())
-g = [[*map(int, input().split())]  for _ in range(n)]
-plan = [*map(int ,input().split())]
-parent = [i for i in range(n)]
+from collections import deque
 
-def findd(x):
-    if parent[x] != x: parent[x] = findd(parent[x])
-    return parent[x]
+def bfs(adj, start, visit):
+    q = deque()
+    q.append(start)
+    visit[start] = 1
+    while q:
+        node = q.popleft()
 
-def union(a, b):
-    aa = findd(a)
-    bb = findd(b)
-    if aa == bb: return
-    elif aa<bb: parent[bb] = aa
-    else: parent[aa] = bb 
-    return
-for fromm in range(n):
-    for to in range(fromm+1,n):
-        if g[fromm][to]: union(fromm, to)
+        for idx, item in enumerate(adj[node]):
+            if item and visit[idx] == 0:
+                visit[idx] = 1
+                q.append(idx)
 
-for i in range(len(plan)-1):
-    if parent[plan[i]-1] != parent[plan[i+1]-1]: print('NO'); exit(0)
-print("YES")
+n = int(input())
+m = int(input())
+
+adj = []
+visit = [0] * n
+for _ in range(n):
+    adj.append(list(map(int, input().split())))
+city = list(map(int,input().split()))
+start = city[0] - 1
+
+bfs(adj, start, visit)
+flag = True
+for item in city:
+    if visit[item-1] == 0:
+        flag = False
+if flag:
+    print('YES')
+else:
+    print('NO')

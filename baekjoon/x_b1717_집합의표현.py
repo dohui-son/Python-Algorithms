@@ -1,4 +1,5 @@
 from collections import defaultdict,deque
+import sys; sys.setrecursionlimit(1000000)
 n, m = map(int ,input().split())
 parent = [i for i in range(n+1)]
 
