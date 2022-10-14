@@ -11,7 +11,7 @@ arr = [0] + arr
 dcnt = [0]*(n+1) # i번째 음식먹을 때 차를 마신다면
 for i in range(1, n+1): dcnt[i] = bisect_left(arr, arr[i]+d ) - i 
 
-dp = [ [0]*(k+1) for _ in range(n+1)]
+dp = [ [0]*(k+1) for _ in range(n+1)] # nn번째 음식까지 효과를 kk번 사용했을때 포함할 수 있는 음식의 최댓값
 for kk in range(1, k+1):
     for nn in range(1, n+1):
         drink = dcnt[nn]

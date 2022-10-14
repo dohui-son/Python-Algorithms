@@ -9,7 +9,6 @@ def solution(n, s):
             if summ == s: break
     return arr
 
-
     # multiple의 최대 결과를 위해서는 곱하는 수들의 차이가 가장 적어야한다
     def bestSet(n, s):
         answer = []
