@@ -17,12 +17,12 @@ def bfs(gg, r, c):
                 if ny<0 or nx<0 or ny>=r or nx>=c: continue
                 if gg[ny][nx] == '#'  or gg[ny][nx] == '*': continue
                 gg[ny][nx] = '*'
-                fq.appendleft((ft+1, ny,nx))
+                fq.append((ft+1, ny,nx))
         while q and time > q[0][0]:
             cnt, y, x = q.popleft()
             for d in dir:
                 ny, nx = y+d[0], x+d[1]
-                if ny<0 or nx<0 or ny>=r or nx>= c: return cnt+1
+                if ny<0 or nx<0 or ny>=r or nx>= c: return time
                 if gg[ny][nx] == '#' or gg[ny][nx] == '@' or gg[ny][nx] == '*': continue
                 if gg[ny][nx] == '.': 
                     gg[ny][nx] = '@'
